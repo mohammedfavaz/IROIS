@@ -23,10 +23,10 @@ export default function SignIn() {
         var config = {
             method: 'post',
             url: 'http://proteinium.iroidtechnologies.in/api/v1/login',
-            headers: { 
-                'lang': 'en', 
+            headers: {
+                'lang': 'en',
                 ...data.getHeaders()
-              },
+            },
             data: data
         };
 
@@ -43,16 +43,14 @@ export default function SignIn() {
     return (
         <View style={styles.mainView} >
             <StatusBar backgroundColor={"#fff"} barStyle={'dark-content'} />
-
             <View style={{ alignItems: "flex-end", paddingHorizontal: 19, paddingTop: 20 }} >
                 <Text style={{ color: "#000000", fontWeight: "bold", fontSize: 14 }}>Skip</Text>
-
             </View>
             <View style={styles.subView}>
                 <Text style={{ color: "#000000", fontWeight: "bold", fontSize: 30, marginBottom: 15 }}>Sign In</Text>
                 <Text style={{ color: "#7C7D7E", fontWeight: "normal", fontSize: 14, marginBottom: 15 }}>Enter Your Details</Text>
                 <InputBox name="User Name" values={inpData.username} onChange={val => { setinpData(pre => ({ ...pre, username: val })) }} />
-                <InputBox name="Password" values={inpData.password} onChange={val => { setinpData(pre => ({ ...pre, username: val })) }} />
+                <InputBox name="Password" values={inpData.password} onChange={val => { setinpData(pre => ({ ...pre, password: val })) }} />
                 <BigButton onPress={check} />
                 <Text style={{ color: "#444444", fontWeight: "500", fontSize: 14, marginBottom: 15, marginTop: 10 }}>Forgot your password?</Text>
                 <Text style={{ color: "#444444", fontWeight: "500", fontSize: 14 }}>Don't have an Account?<Text style={{ color: "#5DA7A3", fontWeight: "bold", fontSize: 14 }}> Sign Up</Text></Text>

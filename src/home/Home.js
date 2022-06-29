@@ -5,20 +5,19 @@ import Faltview from './components/Faltview'
 // import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 
-export default function Home() {
+export default function Home({ navigation }) {
     const [iroData, setiroData] = useState()
     useEffect(() => {
         getData()
     }, [])
 
     const getData = () => {
-        
         var axios = require('axios');
         var FormData = require('form-data');
         var data = new FormData({
-                'lang_id': 'en',
-                'user_id': '357'
-            });
+            'lang_id': 'en',
+            'user_id': '357'
+        });
         data.append('lang_id', 'en')
         data.append('user_id', '357')
         // var fdata = qs.stringify({
@@ -38,7 +37,6 @@ export default function Home() {
         // console.log(data);
         axios(config)
             .then(function (response) {
-                // console.log(JSON.stringify(response.data.data));
                 setiroData(response.data.data.meal_categories)
             })
             .catch(function (error) {
@@ -58,7 +56,7 @@ export default function Home() {
             <FlatList
                 data={iroData}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ marginVertical:20 }}
+                contentContainerStyle={{ marginVertical: 20 }}
                 renderItem={({ item, index }) => (
                     <Faltview data={item} />
                 )}
