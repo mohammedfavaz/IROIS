@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StatusBar, Image, ImageBackground, FlatList } from 'react-native'
+import React, { useState, useEffect, } from 'react'
+import { View, Text, StatusBar, Image, ImageBackground, FlatList, ScrollView } from 'react-native'
 import Header from './components/Header'
 import Faltview from './components/Faltview'
 // import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel from 'react-native-snap-carousel';
+import Slider from './components/Slider';
 
 
 export default function Home({ navigation }) {
-    const [iroData, setiroData] = useState()
+    const [iroData, setiroData] = useState({
+        flatData: [],
+        sliderData: []
+    })
     useEffect(() => {
         getData()
     }, [])
@@ -37,7 +42,10 @@ export default function Home({ navigation }) {
         // console.log(data);
         axios(config)
             .then(function (response) {
-                setiroData(response.data.data.meal_categories)
+                // setiroData(response.data.data.meal_categories)
+                setiroData(pre => ({ ...pre, flatData: response.data.data.meal_categories, sliderData: response.data.data.banners }))
+
+                // console.log(response.data.data.banners); 
             })
             .catch(function (error) {
                 console.log(error);
@@ -45,23 +53,20 @@ export default function Home({ navigation }) {
     }
     // console.log(iroData.meal_categories);
     return (
-        <View>
+        <View style={{ backgroundColor: "#fff", flex: 1 }}>
             <StatusBar backgroundColor={"#5DA7A3"} barStyle={"light-content"} />
             <Header />
-
-            {/* <View style={{height:130,width:"89%",backgroundColor:"red",alignSelf:"center"}}>
-                <Image   source={require("../assets/images/top-view-vegetable-composition-onions-garlics-peppers-greens-dark-background-seasoning-pepper-food-product-color.png")}></Image>
-            </View> */}
-
-            <FlatList
-                data={iroData}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ marginVertical: 20 }}
-                renderItem={({ item, index }) => (
-                    <Faltview data={item} />
-                )}
-            />
-
+            <ScrollView>
+                <Slider data={iroData.sliderData} />
+                <FlatList
+                    data={iroData.flatData}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ marginVertical: 20 }}
+                    renderItem={({ item, index }) => (
+                        <Faltview data={item} />
+                    )}
+                />
+            </ScrollView>
         </View>
     )
 }

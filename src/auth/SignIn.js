@@ -1,17 +1,32 @@
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, StatusBar,BackHandler } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import InputBox from '../common/components/InputBox'
 import BigButton from '../common/components/BigButton'
 
+export default function SignIn({navigation}) {
 
-export default function SignIn() {
-
+    useEffect(() => {
+        const backAction = () => {
+            if (navigation.isFocused()) {
+                BackHandler.exitApp()
+                return true;
+            } else {
+                return false;
+            }
+        };
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
+    }, []);
     const [inpData, setinpData] = useState({
         username: "",
         password: ""
     })
 
     const check = () => {
+        navigation.navigate("home")
         var axios = require('axios');
         var FormData = require('form-data');
         var data = new FormData();
@@ -25,7 +40,6 @@ export default function SignIn() {
             url: 'http://proteinium.iroidtechnologies.in/api/v1/login',
             headers: {
                 'lang': 'en',
-                ...data.getHeaders()
             },
             data: data
         };
